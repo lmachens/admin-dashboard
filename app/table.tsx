@@ -1,21 +1,23 @@
 import {
   Table,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
   Text
 } from '@tremor/react';
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
+const users = [
+  {
+    id: 1,
+    name: 'John Doe',
+    username: 'johndoe',
+    email: ''
+  },
+]
 
-export default async function UsersTable({ users }: { users: User[] }) {
+export default async function RevenueTable() {
   return (
     <Table>
       <TableHead>
