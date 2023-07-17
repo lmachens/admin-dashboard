@@ -10,7 +10,7 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
   const token = cookieStore.get('token')?.value!;
 
   const data = await Promise.all(
-    apps.map(async (app) => ({
+    apps.sort().map(async (app) => ({
       app,
       queryResult: await getWidgetData(widget, app, token).then(
         (data) => data.query_result
