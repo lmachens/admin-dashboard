@@ -10,7 +10,12 @@ export default function Counter({
 }) {
   const total = +data
     .reduce((acc, result) => {
-      return acc + result.queryResult.data.rows[0][options.targetColName];
+      return (
+        acc +
+        result.queryResult.data.rows[0][
+          options.targetColName || options.counterColName
+        ]
+      );
     }, 0)
     .toFixed(2);
   const prevTotal = +data
@@ -18,7 +23,12 @@ export default function Counter({
       if (!result.queryResult.data.rows[1]) {
         return acc;
       }
-      return acc + result.queryResult.data.rows[1][options.targetColName];
+      return (
+        acc +
+        result.queryResult.data.rows[1][
+          options.targetColName || options.counterColName
+        ]
+      );
     }, 0)
     .toFixed(2);
 
@@ -36,8 +46,11 @@ export default function Counter({
         >
           {options.stringPrefix}
           {total}
-          {prevTotal && (
-            <span className="text-neutral-400 ml-2">(${prevTotal})</span>
+          {prevTotal > 0 && (
+            <span className="text-neutral-400 ml-2">
+              ({options.stringPrefix}
+              {prevTotal})
+            </span>
           )}
         </Metric>
         <Text>Total</Text>
@@ -52,18 +65,32 @@ export default function Counter({
           <Metric
             className={
               queryResult.data.rows[1]
-                ? queryResult.data.rows[0][options.targetColName] >
-                  queryResult.data.rows[1][options.targetColName]
+                ? queryResult.data.rows[0][
+                    options.targetColName || options.counterColName
+                  ] >
+                  queryResult.data.rows[1][
+                    options.targetColName || options.counterColName
+                  ]
                   ? 'text-green-500'
                   : 'text-orange-500'
                 : 'text-neutral-700'
             }
           >
             {options.stringPrefix}
-            {queryResult.data.rows[0][options.targetColName]}
+            {
+              queryResult.data.rows[0][
+                options.targetColName || options.counterColName
+              ]
+            }
             {queryResult.data.rows[1] && (
               <span className="text-neutral-400 ml-2">
-                (${queryResult.data.rows[1][options.targetColName]})
+                ({options.stringPrefix}
+                {
+                  queryResult.data.rows[1][
+                    options.targetColName || options.counterColName
+                  ]
+                }
+                )
               </span>
             )}
           </Metric>

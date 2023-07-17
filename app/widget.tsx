@@ -21,7 +21,9 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
   return (
     <Card className="space-y-2">
       <Title>{widget.visualization?.query.name || widget.id}</Title>
-      <Text>{widget.visualization?.query.description}</Text>
+      <Text>
+        {widget.visualization?.query.description || widget.visualization.name}
+      </Text>
       {/* {widget.visualization?.type === 'COHORT' &&
         data &&
         'query_result' in data && <Cohort queryResult={data.query_result} />}
