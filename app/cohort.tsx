@@ -4,20 +4,20 @@ import {
   TableCell,
   TableHead,
   TableHeaderCell,
-  TableRow
+  TableRow,
+  Text
 } from '@tremor/react';
 import { QueryResult } from './types';
 
 export default function Cohort({
-  data,
-  options
+  data
 }: {
   data: { app: string; queryResult: QueryResult['query_result'] }[];
   options: any;
 }) {
-  // Need to find a good way to display this data
   return (
-    <>
+    <div className="max-h-48 overflow-hidden">
+      <Text>In Development</Text>
       {data.map(({ app, queryResult }) => (
         <Table key={app}>
           <TableHead>
@@ -40,6 +40,6 @@ export default function Cohort({
           </TableBody>
         </Table>
       ))}
-    </>
+    </div>
   );
 }

@@ -1,6 +1,8 @@
 import { Card, Text, Title } from '@tremor/react';
 import { cookies } from 'next/headers';
 import { getWidgetData } from './api';
+import Chart from './chart';
+import Cohort from './cohort';
 import Counter from './counter';
 import { Widget as WidgetType } from './types';
 
@@ -28,13 +30,12 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
       <Text>
         {widget.visualization?.query.description || widget.visualization.name}
       </Text>
-      {/* {widget.visualization?.type === 'COHORT' && data && (
+      {widget.visualization?.type === 'COHORT' && data && (
         <Cohort data={data} options={widget.visualization.options} />
-      )} */}
-      {/* {widget.visualization?.type === 'CHART' &&
-        data &&
-        'query_result' in data &&
-        data.query_result.data && <Chart queryResult={data.query_result} />}  */}
+      )}
+      {widget.visualization?.type === 'CHART' && data && (
+        <Chart data={data} options={widget.visualization.options} />
+      )}
       {widget.visualization?.type === 'COUNTER' && data && (
         <Counter data={data} options={widget.visualization.options} />
       )}

@@ -14,7 +14,8 @@ async function jsonFetch<T>(url: string, token: string, body?: object) {
       'Content-Type': 'application/json',
       Cookie: `token=${token}`
     },
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
+    next: { revalidate: 60 }
   });
   const data = (await response.json()) as T;
 
@@ -52,9 +53,6 @@ export async function getWidgetData(
   appName: string,
   token: string
 ) {
-  //   if (!widget.visualization) {
-  //     return null;
-  //   }
   const body: {
     parameters: {
       app_name: string;
