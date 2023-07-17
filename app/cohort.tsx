@@ -9,30 +9,37 @@ import {
 import { QueryResult } from './types';
 
 export default function Cohort({
-  queryResult
+  data,
+  options
 }: {
-  queryResult: QueryResult['query_result'];
+  data: { app: string; queryResult: QueryResult['query_result'] }[];
+  options: any;
 }) {
+  // Need to find a good way to display this data
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          {queryResult.data.columns.map((column: any) => (
-            <TableHeaderCell key={column.name}>
-              {column.friendly_name}
-            </TableHeaderCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {queryResult.data.rows.map((row: any) => (
-          <TableRow key={row.date}>
-            {queryResult.data.columns.map((column: any) => (
-              <TableCell key={column.name}>{row[column.name]}</TableCell>
+    <>
+      {data.map(({ app, queryResult }) => (
+        <Table key={app}>
+          <TableHead>
+            <TableRow>
+              {queryResult.data.columns.map((column: any) => (
+                <TableHeaderCell key={column.name}>
+                  {column.friendly_name}
+                </TableHeaderCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {queryResult.data.rows.map((row: any) => (
+              <TableRow key={row.date}>
+                {queryResult.data.columns.map((column: any) => (
+                  <TableCell key={column.name}>{row[column.name]}</TableCell>
+                ))}
+              </TableRow>
             ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+          </TableBody>
+        </Table>
+      ))}
+    </>
   );
 }

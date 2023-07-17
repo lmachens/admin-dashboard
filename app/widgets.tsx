@@ -8,16 +8,28 @@ export default async function Widgets() {
   const token = cookieStore.get('token')?.value;
 
   const widgets = token ? await getWidgets(token) : [];
-
+  const counterWidgets = widgets.filter(
+    (widget) => widget.visualization?.type === 'COUNTER'
+  );
+  const cohortWidgets = widgets.filter(
+    (widget) => widget.visualization?.type === 'COHORT'
+  );
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-      {widgets
-        .filter((widget) => widget.visualization?.type === 'COUNTER')
-        .map((widget) => (
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {counterWidgets.map((widget) => (
           <Suspense key={widget.id}>
             <Widget widget={widget} />
           </Suspense>
         ))}
-    </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {cohortWidgets.map((widget) => (
+          <Suspense key={widget.id}>
+            <Widget widget={widget} />
+          </Suspense>
+        ))}
+      </div>
+    </>
   );
 }
