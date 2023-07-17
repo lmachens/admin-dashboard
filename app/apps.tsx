@@ -1,5 +1,6 @@
 'use client';
 
+import { Card } from '@tremor/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -7,7 +8,7 @@ export default function Apps({ apps }: { apps: string[] }) {
   const router = useRouter();
 
   return (
-    <div>
+    <Card>
       <div>My Apps</div>
       <div className="flex flex-wrap gap-2">
         {apps.map((app) => (
@@ -25,6 +26,6 @@ export default function Apps({ apps }: { apps: string[] }) {
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }

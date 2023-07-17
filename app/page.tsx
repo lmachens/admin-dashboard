@@ -14,8 +14,8 @@ export default async function IndexPage() {
       <Card className="flex justify-between">
         <TokenForm />
         <AppForm apps={apps} />
-        <Apps apps={apps} />
       </Card>
+      <Apps apps={apps} />
       <Widgets />
     </main>
   );

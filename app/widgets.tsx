@@ -11,7 +11,7 @@ export default async function Widgets() {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-      {widgets.map((widget) => (
+      {widgets.slice(0, 1).map((widget) => (
         <Suspense key={widget.id}>
           <Widget widget={widget} />
         </Suspense>

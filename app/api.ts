@@ -52,9 +52,9 @@ export async function getWidgetData(
   appName: string,
   token: string
 ) {
-  if (!widget.visualization) {
-    return null;
-  }
+  //   if (!widget.visualization) {
+  //     return null;
+  //   }
   const body: {
     parameters: {
       app_name: string;
