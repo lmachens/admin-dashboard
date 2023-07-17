@@ -1,41 +1,27 @@
 'use client';
+import { AreaChart } from '@tremor/react';
+import { QueryResult } from './types';
 
-import { Card, AreaChart, Title, Text } from '@tremor/react';
-
-const data = [
-  {
-    Month: 'Jan 21',
-    Sales: 2890,
-    Profit: 2400
-  },
-  {
-    Month: 'Feb 21',
-    Sales: 1890,
-    Profit: 1398
-  },
-  {
-    Month: 'Jan 22',
-    Sales: 3890,
-    Profit: 2980
+export default function Chart({
+  queryResult
+}: {
+  queryResult: QueryResult['query_result'];
+}) {
+  if (!queryResult) {
+    return null;
   }
-];
-
-export default function Example() {
   return (
-    <Card className="mt-8">
-      <Title>Performance</Title>
-      <Text>Comparison between Sales and Profit</Text>
-      <AreaChart
-        className="mt-4 h-80"
-        data={data}
-        categories={['Sales', 'Profit']}
-        index="Month"
-        colors={['indigo', 'fuchsia']}
-        valueFormatter={(number: number) =>
-          `$ ${Intl.NumberFormat('us').format(number).toString()}`
-        }
-        yAxisWidth={60}
-      />
-    </Card>
+    <AreaChart
+      data={queryResult.data.rows}
+      categories={queryResult.data.columns.map(
+        (column: any) => column.friendly_name
+      )}
+      index={queryResult.data.columns[0].name}
+      // colors={['indigo', 'fuchsia']}
+      // valueFormatter={(number: number) =>
+      //   `$ ${Intl.NumberFormat('us').format(number).toString()}`
+      // }
+      yAxisWidth={60}
+    />
   );
 }
