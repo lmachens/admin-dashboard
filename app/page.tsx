@@ -1,5 +1,6 @@
 import { Card } from '@tremor/react';
 import { cookies } from 'next/headers';
+import { Suspense } from 'react';
 import AppForm from './app-form';
 import Apps from './apps';
 import TokenForm from './token-form';
@@ -11,12 +12,14 @@ export default async function IndexPage() {
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl space-y-6">
-      <Card className="flex justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <TokenForm />
         <AppForm apps={apps} />
-      </Card>
+      </div>
       <Apps apps={apps} />
-      <Widgets />
+      <Suspense fallback={<Card>Loading Widgets</Card>}>
+        <Widgets />
+      </Suspense>
     </main>
   );
 }

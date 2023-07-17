@@ -1,3 +1,4 @@
+import { Card } from '@tremor/react';
 import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import { getWidgets } from './api';
@@ -18,14 +19,14 @@ export default async function Widgets() {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {counterWidgets.map((widget) => (
-          <Suspense key={widget.id}>
+          <Suspense key={widget.id} fallback={<Card>Loading Widget</Card>}>
             <Widget widget={widget} />
           </Suspense>
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cohortWidgets.map((widget) => (
-          <Suspense key={widget.id}>
+          <Suspense key={widget.id} fallback={<Card>Loading Widget</Card>}>
             <Widget widget={widget} />
           </Suspense>
         ))}

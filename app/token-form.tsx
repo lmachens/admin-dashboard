@@ -1,5 +1,6 @@
 'use client';
 
+import { Card } from '@tremor/react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,28 +10,30 @@ export default function TokenForm() {
   const [token, setToken] = useState('');
 
   return (
-    <form
-      className="space-y-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        Cookies.set('token', token);
-        setToken('');
-        router.refresh();
-      }}
-    >
-      <label>
-        <div>Token</div>
+    <Card>
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          Cookies.set('token', token);
+          setToken('');
+          router.refresh();
+        }}
+      >
+        <label>
+          <div>Token</div>
+          <input
+            value={token}
+            placeholder="Enter your auth token"
+            onChange={(e) => setToken(e.target.value)}
+          />
+        </label>
         <input
-          value={token}
-          placeholder="Enter your auth token"
-          onChange={(e) => setToken(e.target.value)}
+          className="block px-4 py-2 bg-gray-100 text-gray-700 cursor-pointer"
+          type="submit"
+          value="Submit"
         />
-      </label>
-      <input
-        className="block px-4 py-2 bg-gray-100 text-gray-700 cursor-pointer"
-        type="submit"
-        value="Submit"
-      />
-    </form>
+      </form>
+    </Card>
   );
 }
