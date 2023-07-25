@@ -116,7 +116,7 @@ export default function Counter({
     }, 0)
     .toFixed(2);
   const prevTotal =
-    data[0].queryResult.data.rows.length > 1
+    data[0]?.queryResult.data.rows.length > 1
       ? +data
           .reduce((acc, result) => {
             if (!result.queryResult.data.rows[1]) {

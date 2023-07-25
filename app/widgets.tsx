@@ -1,14 +1,10 @@
 import { Card } from '@tremor/react';
-import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import { getWidgets } from './api';
 import Widget from './widget';
 
 export default async function Widgets() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('token')?.value;
-
-  const widgets = token ? await getWidgets(token) : [];
+  const widgets = await getWidgets();
   const counterWidgets = widgets.filter(
     (widget) => widget.visualization?.type === 'COUNTER'
   );
