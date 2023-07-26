@@ -1,19 +1,15 @@
-import { Card } from '@tremor/react';
-import { Suspense } from 'react';
 import { getDashboardPerformance } from '../api';
 import Widget from '../widget';
+import WidgetContainer from '../widget-container';
 
 export default async function Performance() {
   const widgets = await getDashboardPerformance();
   return (
     <>
       {widgets.map((widget) => (
-        <Suspense
-          key={widget.id}
-          fallback={<Card className="order-last">Loading Widget</Card>}
-        >
+        <WidgetContainer key={widget.id} widget={widget}>
           <Widget widget={widget} />
-        </Suspense>
+        </WidgetContainer>
       ))}
     </>
   );

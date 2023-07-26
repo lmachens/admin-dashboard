@@ -13,32 +13,29 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
   const data = await Promise.all(
     APPS.sort().map(async (app) => ({
       app,
-      queryResult: await getWidget(widget, app).then(
-        (data) => data.query_result
-      )
+      queryResult: await getWidget(widget, app)
     }))
-  ).catch(() => {
-    // console.error(error);
+  ).catch((error) => {
+    console.error(error);
   });
-  const title = widget.visualization?.query.name || widget.id.toString();
+  const title = widget.visualization.query.name;
   const description =
-    widget.visualization?.query.description || widget.visualization.name;
-  const order =
-    ['COUNTER', 'CHART', 'TABLE', 'COHORT'].indexOf(
-      widget.visualization?.type || 'COUNTER'
-    ) + 1;
+    widget.visualization.query.description || widget.visualization.name;
 
   return (
-    <Card className={`space-y-2 order-${order}`}>
+    <Card className={`space-y-2 h-full`}>
       <Title className="truncate" title={title}>
-        {widget.id}: {title}
+        {widget.visualization.query.id}: {title}
       </Title>
       <Text className="truncate" title={description}>
         {description}
       </Text>
-      {!data && <Card>Could not load data</Card>}
+      {!data && <div>Could not load data</div>}
       {/* {widget.visualization?.type === 'COHORT' && !!data && (
         <Cohort data={data} options={widget.visualization.options} />
+      )} */}
+      {/* {widget.visualization?.type === 'CHOROPLETH' && !!data && (
+        <Choropleth data={data} options={widget.visualization.options} />
       )} */}
       {/* {widget.visualization?.type === 'TABLE' && !!data && (
         <Table data={data} options={widget.visualization.options} />

@@ -144,7 +144,7 @@ export default function Counter({
           </Text>
         )}
       </Flex>
-      <List className="mt-1">
+      <List className="mt-1 overflow-auto">
         {data
           .sort(
             (a, b) =>

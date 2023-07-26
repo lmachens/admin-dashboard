@@ -33,8 +33,8 @@ export default function Chart({
         {data.map(({ app, queryResult }) => (
           <TabPanel key={app} className="p-6">
             <AreaChart
-              data={queryResult.data.rows.sort(
-                (a: any, b: any) => a[x]?.localeCompare(b[x]?.toString() || '')
+              data={queryResult.data.rows.sort((a: any, b: any) =>
+                a[x].localeCompare(b[x])
               )}
               categories={categories}
               index={x}
