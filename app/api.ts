@@ -40,7 +40,7 @@ const jsonFetch = cache(async <T>(props: string) => {
     }
     if ('job' in (data as any)) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-    } else {
+    } else if (Object.keys(data as any).length > 0) {
       return data;
     }
   }
