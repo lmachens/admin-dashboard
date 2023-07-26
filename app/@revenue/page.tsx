@@ -18,3 +18,5 @@ export default async function Revenue() {
     </>
   );
 }
+
+export const revalidate = 3600;

@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { TOKEN } from './env';
 import {
   DevConsolePartnersDaily,
@@ -11,32 +10,32 @@ import {
 
 import 'server-only';
 
-const jsonFetch = cache(
-  async <T>(url: string, appName?: string, daysBack?: string) => {
-    const body: { parameters: Record<string, string> } | undefined = appName
-      ? { parameters: { app_name: appName } }
-      : undefined;
-    if (daysBack && body) {
-      body.parameters['Days back'] = daysBack;
-    }
-    const response = await fetch(url, {
-      method: body ? 'POST' : 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: `token=${TOKEN}`
-      },
-      body: body ? JSON.stringify(body) : undefined,
-      next: { revalidate: 60 }
-    });
-    const data = (await response.json()) as T;
-
-    if (!response.ok) {
-      throw new Error(JSON.stringify(data));
-    }
-    return data;
+const jsonFetch = async <T>(
+  url: string,
+  appName?: string,
+  daysBack?: string
+) => {
+  const body: { parameters: Record<string, string> } | undefined = appName
+    ? { parameters: { app_name: appName } }
+    : undefined;
+  if (daysBack && body) {
+    body.parameters['Days back'] = daysBack;
   }
-);
+  const response = await fetch(url, {
+    method: body ? 'POST' : 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Cookie: `token=${TOKEN}`
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = (await response.json()) as T;
 
+  if (!response.ok) {
+    throw new Error(JSON.stringify(data));
+  }
+  return data;
+};
 export async function getDashboardRevenue() {
   return await jsonFetch<RevenueStatisticsDashboard>(
     'https://console-stats.overwolf.com/api/dashboards/public/revenue'
@@ -75,7 +74,7 @@ async function getWidgetData(widget: Widget, appName: string, retries = 0) {
     daysBack?.value
   );
 
-  if ('job' in widgetData && retries < 5) {
+  if ('job' in widgetData && retries < 10) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return getWidgetData(widget, appName, retries + 1);
   }

@@ -18,3 +18,5 @@ export default async function KPIs() {
     </>
   );
 }
+
+export const revalidate = 3600;
