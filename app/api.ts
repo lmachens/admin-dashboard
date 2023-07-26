@@ -41,11 +41,18 @@ export async function getDashboardKPIs() {
   );
 }
 
+export async function getDashboardPerformance() {
+  return await jsonFetch<DevConsolePartnersDaily>(
+    'https://console-stats.overwolf.com/api/dashboards/public/performance'
+  );
+}
+
 export const getWidgets = async () => {
   return (
     await Promise.all([
       getDashboardRevenue().then((data) => data.widgets),
-      getDashboardKPIs().then((data) => data.widgets)
+      getDashboardKPIs().then((data) => data.widgets),
+      getDashboardPerformance().then((data) => data.widgets)
     ])
   ).flat() as Widget[];
 };

@@ -1,11 +1,16 @@
+'use client';
 import {
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeaderCell,
-  TableRow,
-  Text
+  TableRow
 } from '@tremor/react';
 import { QueryResult } from './types';
 
@@ -16,30 +21,40 @@ export default function Cohort({
   options: any;
 }) {
   return (
-    <div className="max-h-48 overflow-hidden">
-      <Text>In Development</Text>
-      {data.map(({ app, queryResult }) => (
-        <Table key={app}>
-          <TableHead>
-            <TableRow>
-              {queryResult.data.columns.map((column: any) => (
-                <TableHeaderCell key={column.name}>
-                  {column.friendly_name}
-                </TableHeaderCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {queryResult.data.rows.map((row: any) => (
-              <TableRow key={row.date}>
-                {queryResult.data.columns.map((column: any) => (
-                  <TableCell key={column.name}>{row[column.name]}</TableCell>
+    <TabGroup>
+      <TabList>
+        {data.map(({ app }) => (
+          <Tab key={app}>{app}</Tab>
+        ))}
+      </TabList>
+      <TabPanels>
+        {data.map(({ app, queryResult }) => (
+          <TabPanel key={app} className="p-6">
+            <Table className="max-h-96">
+              <TableHead>
+                <TableRow>
+                  {queryResult.data.columns.map((column: any) => (
+                    <TableHeaderCell key={column.name}>
+                      {column.friendly_name}
+                    </TableHeaderCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {queryResult.data.rows.map((row: any) => (
+                  <TableRow key={`${app}-${row.date}`}>
+                    {queryResult.data.columns.map((column: any) => (
+                      <TableCell key={`${app}-${column.name}`}>
+                        {row[column.name]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      ))}
-    </div>
+              </TableBody>
+            </Table>
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </TabGroup>
   );
 }

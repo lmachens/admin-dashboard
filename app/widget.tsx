@@ -21,11 +21,16 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
   ).catch((error) => {
     console.error(error);
   });
+  const title = widget.visualization?.query.name || widget.id.toString();
+  const description =
+    widget.visualization?.query.description || widget.visualization.name;
   return (
     <Card className="space-y-2">
-      <Title>{widget.visualization?.query.name || widget.id}</Title>
-      <Text>
-        {widget.visualization?.query.description || widget.visualization.name}
+      <Title className="truncate" title={title}>
+        {title}
+      </Title>
+      <Text className="truncate" title={description}>
+        {description}
       </Text>
       {widget.visualization?.type === 'COHORT' && !!data && (
         <Cohort data={data} options={widget.visualization.options} />

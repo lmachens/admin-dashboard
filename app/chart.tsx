@@ -1,31 +1,53 @@
 'use client';
-import { AreaChart, Text } from '@tremor/react';
+import {
+  AreaChart,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels
+} from '@tremor/react';
 import { QueryResult } from './types';
 
 export default function Chart({
-  data
+  data,
+  options
 }: {
   data: { app: string; queryResult: QueryResult['query_result'] }[];
   options: any;
 }) {
+  const columnMapping = Object.entries(options.columnMapping);
+  const x = columnMapping.find(([, value]) => value === 'x')![0];
+  const categories = columnMapping
+    .filter(([, value]) => value === 'y')
+    .map(([key]) => key);
+
   return (
-    <div className="max-h-48 overflow-hidden">
-      <Text>In Development</Text>
-      {data.map(({ app, queryResult }) => (
-        <AreaChart
-          key={app}
-          data={queryResult.data.rows}
-          categories={queryResult.data.columns.map(
-            (column: any) => column.friendly_name
-          )}
-          index={queryResult.data.columns[0].name}
-          // colors={['indigo', 'fuchsia']}
-          // valueFormatter={(number: number) =>
-          //   `$ ${Intl.NumberFormat('us').format(number).toString()}`
-          // }
-          yAxisWidth={60}
-        />
-      ))}
-    </div>
+    <TabGroup>
+      <TabList>
+        {data.map(({ app }) => (
+          <Tab key={app}>{app}</Tab>
+        ))}
+      </TabList>
+      <TabPanels>
+        {data.map(({ app, queryResult }) => (
+          <TabPanel key={app} className="p-6">
+            <AreaChart
+              data={queryResult.data.rows.sort((a: any, b: any) =>
+                a[x].localeCompare(b[x])
+              )}
+              categories={categories}
+              index={x}
+              // colors={['indigo', 'fuchsia']}
+              // valueFormatter={(number: number) =>
+              //   `$ ${Intl.NumberFormat('us').format(number).toString()}`
+              // }
+              // showLegend={false}
+              yAxisWidth={50}
+            />
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </TabGroup>
   );
 }
