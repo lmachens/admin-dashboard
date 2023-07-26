@@ -38,11 +38,7 @@ export default function Chart({
               )}
               categories={categories}
               index={x}
-              // colors={['indigo', 'fuchsia']}
-              // valueFormatter={(number: number) =>
-              //   `$ ${Intl.NumberFormat('us').format(number).toString()}`
-              // }
-              // showLegend={false}
+              showLegend={false}
               yAxisWidth={50}
             />
           </TabPanel>

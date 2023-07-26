@@ -5,16 +5,16 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Table,
   TableBody,
   TableCell,
+  Table as TableComponent,
   TableHead,
   TableHeaderCell,
   TableRow
 } from '@tremor/react';
 import { QueryResult } from './types';
 
-export default function Cohort({
+export default function Table({
   data
 }: {
   data: { app: string; queryResult: QueryResult['query_result'] }[];
@@ -30,7 +30,7 @@ export default function Cohort({
       <TabPanels>
         {data.map(({ app, queryResult }) => (
           <TabPanel key={app} className="p-6">
-            <Table className="max-h-96">
+            <TableComponent className="max-h-96">
               <TableHead>
                 <TableRow>
                   {queryResult.data.columns.map((column: any) => (
@@ -51,7 +51,7 @@ export default function Cohort({
                   </TableRow>
                 ))}
               </TableBody>
-            </Table>
+            </TableComponent>
           </TabPanel>
         ))}
       </TabPanels>
