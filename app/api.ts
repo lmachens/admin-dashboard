@@ -18,7 +18,7 @@ const jsonFetch = cache(async <T>(props: string) => {
     appName?: string;
     daysBack?: string;
   };
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 60; i++) {
     const body: { parameters: Record<string, string> } | undefined = appName
       ? { parameters: { app_name: appName } }
       : undefined;
