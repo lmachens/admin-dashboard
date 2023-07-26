@@ -1,7 +1,6 @@
 import { Card, Text, Title } from '@tremor/react';
 import { getWidget } from './api';
 import Chart from './chart';
-import Cohort from './cohort';
 import Counter from './counter';
 import { APPS } from './env';
 import { Widget as WidgetType } from './types';
@@ -36,9 +35,9 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
       <Text className="truncate" title={description}>
         {description}
       </Text>
-      {widget.visualization?.type === 'COHORT' && !!data && (
+      {/* {widget.visualization?.type === 'COHORT' && !!data && (
         <Cohort data={data} options={widget.visualization.options} />
-      )}
+      )} */}
       {widget.visualization?.type === 'CHART' && !!data && (
         <Chart data={data} options={widget.visualization.options} />
       )}

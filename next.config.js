@@ -5,7 +5,8 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['@tremor/react']
-  }
+  },
+  staticPageGenerationTimeout: 1000
 };
 
 module.exports = nextConfig;
