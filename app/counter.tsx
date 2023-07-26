@@ -112,7 +112,7 @@ export default function Counter({
 
   const total = +data
     .reduce((acc, result) => {
-      return acc + result.queryResult.data.rows[0][colName];
+      return acc + (result.queryResult.data.rows[0]?.[colName] || 0);
     }, 0)
     .toFixed(2);
   const prevTotal =
@@ -149,8 +149,8 @@ export default function Counter({
         {data
           .sort(
             (a, b) =>
-              b.queryResult.data.rows[0][colName] -
-              a.queryResult.data.rows[0][colName]
+              (b.queryResult.data.rows[0]?.[colName] || 0) -
+              (a.queryResult.data.rows[0]?.[colName] || 0)
           )
           .map(({ app, queryResult }) => (
             <ListItem key={app}>
@@ -158,7 +158,7 @@ export default function Counter({
                 key={app}
                 title={app}
                 metricPrev={queryResult.data.rows[1]?.[colName]}
-                metric={queryResult.data.rows[0][colName]}
+                metric={queryResult.data.rows[0]?.[colName]}
                 options={options}
                 inList
               />
