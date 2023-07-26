@@ -41,8 +41,8 @@ export default function Cohort({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {queryResult.data.rows.map((row: any) => (
-                  <TableRow key={`${app}-${row.date}`}>
+                {queryResult.data.rows.map((row: any, index: number) => (
+                  <TableRow key={`${app}-${index}`}>
                     {queryResult.data.columns.map((column: any) => (
                       <TableCell key={`${app}-${column.name}`}>
                         {row[column.name]}

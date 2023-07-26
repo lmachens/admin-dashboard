@@ -869,5 +869,6 @@ export type DevConsolePartnersDaily = {
   dashboard_filters_enabled: boolean;
 };
 
-export type Widget = RevenueStatisticsDashboard['widgets'][number] &
-  DevConsolePartnersDaily['widgets'][number];
+export type Widget =
+  | RevenueStatisticsDashboard['widgets'][number]
+  | DevConsolePartnersDaily['widgets'][number];

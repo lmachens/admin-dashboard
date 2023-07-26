@@ -32,30 +32,20 @@ const jsonFetch = cache(async <T>(url: string, body?: object) => {
 export async function getDashboardRevenue() {
   return await jsonFetch<RevenueStatisticsDashboard>(
     'https://console-stats.overwolf.com/api/dashboards/public/revenue'
-  );
+  ).then((data) => data.widgets);
 }
 
 export async function getDashboardKPIs() {
   return await jsonFetch<DevConsolePartnersDaily>(
     'https://console-stats.overwolf.com/api/dashboards/public/kpis'
-  );
+  ).then((data) => data.widgets);
 }
 
 export async function getDashboardPerformance() {
   return await jsonFetch<DevConsolePartnersDaily>(
     'https://console-stats.overwolf.com/api/dashboards/public/performance'
-  );
+  ).then((data) => data.widgets);
 }
-
-export const getWidgets = async () => {
-  return (
-    await Promise.all([
-      getDashboardRevenue().then((data) => data.widgets),
-      getDashboardKPIs().then((data) => data.widgets),
-      getDashboardPerformance().then((data) => data.widgets)
-    ])
-  ).flat() as Widget[];
-};
 
 async function getWidgetData(widget: Widget, appName: string) {
   const body: {
@@ -64,7 +54,9 @@ async function getWidgetData(widget: Widget, appName: string) {
       'Days back'?: string;
     };
   } = { parameters: { app_name: appName } };
-
+  if (!widget.visualization) {
+    throw new Error(`Widget ${widget.id} has no visualization`);
+  }
   const daysBack = widget.visualization.query.options.parameters.find(
     (parameter) => parameter.name === 'Days back'
   );

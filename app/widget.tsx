@@ -24,8 +24,12 @@ export default async function Widget({ widget }: { widget: WidgetType }) {
   const title = widget.visualization?.query.name || widget.id.toString();
   const description =
     widget.visualization?.query.description || widget.visualization.name;
+  const order =
+    ['COUNTER', 'CHART', 'COHORT'].indexOf(
+      widget.visualization?.type || 'COUNTER'
+    ) + 1;
   return (
-    <Card className="space-y-2">
+    <Card className={`space-y-2 order-${order}`}>
       <Title className="truncate" title={title}>
         {title}
       </Title>
