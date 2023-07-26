@@ -109,7 +109,6 @@ export default function Counter({
   options: any;
 }) {
   const colName = options.targetColName ?? options.counterColName;
-
   const total = +data
     .reduce((acc, result) => {
       return acc + (result.queryResult.data.rows[0]?.[colName] || 0);

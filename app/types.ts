@@ -869,6 +869,333 @@ export type DevConsolePartnersDaily = {
   dashboard_filters_enabled: boolean;
 };
 
+export type PerformanceStatisticsDashboard = {
+  layout: Array<any>;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  widgets: Array<{
+    visualization: {
+      name: string;
+      created_at: string;
+      updated_at: string;
+      query: {
+        description?: string;
+        options: {
+          parameters: Array<{
+            name: string;
+            title: string;
+            global: boolean;
+            value: string;
+            queryId: number;
+            parentQueryId?: number;
+            type: string;
+            locals: Array<any>;
+          }>;
+        };
+        id: number;
+        name: string;
+      };
+      type: string;
+      options: {
+        timeInterval?: string;
+        stageColumn?: string;
+        dateColumn?: string;
+        valueColumn?: string;
+        totalColumn?: string;
+        mode?: string;
+        tooltipFormat?: string;
+        targetColName?: string;
+        formatTargetValue?: boolean;
+        rowNumber?: number;
+        stringDecChar?: string;
+        stringDecimal?: number;
+        counterColName?: string;
+        counterLabel?: string;
+        stringThouSep?: string;
+        targetRowNumber?: number;
+        showDataLabels?: boolean;
+        direction?: {
+          type: string;
+        };
+        missingValuesAsZero?: boolean;
+        error_y?: {
+          visible: boolean;
+          type: string;
+        };
+        numberFormat?: string;
+        yAxis?: Array<{
+          type: string;
+          title?: {
+            text: string;
+          };
+          opposite?: boolean;
+        }>;
+        series?: {
+          stacking?: string;
+          error_y: {
+            visible: boolean;
+            type: string;
+          };
+          percentValues?: boolean;
+        };
+        globalSeriesType?: string;
+        percentFormat?: string;
+        sortX?: boolean;
+        seriesOptions?: {
+          estimated_median_session?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          sum_mau?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            name: string;
+            yAxis: number;
+          };
+          total_dau?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          '0.7.17.3'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.17.2'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.17.1'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          'Other Versions'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.17.0'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.18.0'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.18.1'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.15.0'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          '0.7.16.0'?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          NULL?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            yAxis: number;
+          };
+          over_one_hour?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            name: string;
+            yAxis: number;
+          };
+          under_five_minutes?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            name: string;
+            yAxis: number;
+          };
+          sum_sessions?: {
+            zIndex: number;
+            index: number;
+            type: string;
+            name: string;
+            yAxis: number;
+          };
+          total_crashes?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          distinct_crashes?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          total_uninstallations?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          unique_uninstallations?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          total_installations?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+          unique_installations?: {
+            index: number;
+            name: string;
+            yAxis: number;
+            color: string;
+            zIndex: number;
+            type: string;
+          };
+        };
+        valuesOptions?: {};
+        xAxis?: {
+          labels: {
+            enabled: boolean;
+          };
+          type: string;
+        };
+        dateTimeFormat?: string;
+        columnMapping?: {
+          estimated_median_session?: string;
+          activity_date?: string;
+          sum_mau?: string;
+          active_month?: string;
+          active_date?: string;
+          total_dau?: string;
+          app_version?: string;
+          over_one_hour?: string;
+          under_five_minutes?: string;
+          sum_sessions?: string;
+          crash_date?: string;
+          total_crashes?: string;
+          distinct_crashes?: string;
+          null?: string;
+          total_uninstallations?: string;
+          unique_uninstallations?: string;
+          uninstall_date?: string;
+          total_installations?: string;
+          install_date?: string;
+          unique_installations?: string;
+        };
+        textFormat?: string;
+        customCode?: string;
+        legend?: {
+          enabled: boolean;
+        };
+        itemsPerPage?: number;
+        columns?: Array<{
+          linkUrlTemplate: string;
+          name: string;
+          title: string;
+          imageUrlTemplate: string;
+          linkOpenInNewTab: boolean;
+          linkTextTemplate: string;
+          allowSearch: boolean;
+          allowHTML: boolean;
+          imageTitleTemplate: string;
+          imageWidth: string;
+          visible: boolean;
+          alignContent: string;
+          imageHeight: string;
+          order: number;
+          displayAs: string;
+          linkTitleTemplate: string;
+          booleanValues: Array<string>;
+          type: string;
+          highlightLinks: boolean;
+          numberFormat?: string;
+        }>;
+        bottomMargin?: number;
+      };
+      description: string;
+    };
+    text: string;
+    created_at: string;
+    updated_at: string;
+    options: {
+      parameterMappings: {
+        app_name: {
+          type: string;
+          mapTo: string;
+          name: string;
+          value: any;
+          title: string;
+        };
+        'Days back'?: {
+          type: string;
+          mapTo: string;
+          name: string;
+          value: any;
+          title: string;
+        };
+      };
+      isHidden: boolean;
+      position: {
+        autoHeight: boolean;
+        sizeX: number;
+        sizeY: number;
+        maxSizeY: number;
+        maxSizeX: number;
+        minSizeY: number;
+        minSizeX: number;
+        col: number;
+        row: number;
+      };
+    };
+    width: number;
+    id: number;
+  }>;
+  dashboard_filters_enabled: boolean;
+};
+
 export type Widget =
   | RevenueStatisticsDashboard['widgets'][number]
-  | DevConsolePartnersDaily['widgets'][number];
+  | DevConsolePartnersDaily['widgets'][number]
+  | PerformanceStatisticsDashboard['widgets'][number];

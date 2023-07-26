@@ -33,16 +33,12 @@ export default function Chart({
         {data.map(({ app, queryResult }) => (
           <TabPanel key={app} className="p-6">
             <AreaChart
-              data={queryResult.data.rows.sort((a: any, b: any) =>
-                a[x].localeCompare(b[x])
+              data={queryResult.data.rows.sort(
+                (a: any, b: any) => a[x]?.localeCompare(b[x]?.toString() || '')
               )}
               categories={categories}
               index={x}
-              // colors={['indigo', 'fuchsia']}
-              // valueFormatter={(number: number) =>
-              //   `$ ${Intl.NumberFormat('us').format(number).toString()}`
-              // }
-              // showLegend={false}
+              showLegend={false}
               yAxisWidth={50}
             />
           </TabPanel>

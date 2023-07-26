@@ -8,7 +8,10 @@ export default async function Performance() {
   return (
     <>
       {widgets.map((widget) => (
-        <Suspense key={widget.id} fallback={<Card>Loading Widget</Card>}>
+        <Suspense
+          key={widget.id}
+          fallback={<Card className="order-last">Loading Widget</Card>}
+        >
           <Widget widget={widget} />
         </Suspense>
       ))}

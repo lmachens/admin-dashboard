@@ -8,8 +8,11 @@ export default async function KPIs() {
   return (
     <>
       {widgets.map((widget) => (
-        <Suspense key={widget.id} fallback={<Card>Loading Widget</Card>}>
-          <Widget widget={widget} />
+        <Suspense
+          key={widget.id}
+          fallback={<Card className="order-last">Loading Widget</Card>}
+        >
+          <Widget key={widget.id} widget={widget} />
         </Suspense>
       ))}
     </>
