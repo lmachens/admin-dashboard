@@ -22,6 +22,20 @@ export type QueryResult = {
   };
 };
 
+export type Application = {
+  createdAt: string;
+  updated: string;
+  id: string;
+  name: string;
+  author: string;
+  rating: number;
+  shouldDiff: boolean;
+  electron: boolean;
+  partnerId: number;
+  anyviewName: string;
+  deactivated: boolean;
+};
+
 export type RevenueStatisticsDashboard = {
   layout: Array<any>;
   name: string;

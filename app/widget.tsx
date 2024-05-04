@@ -1,23 +1,23 @@
 import { Card, Text, Title } from '@tremor/react';
-import { getWidget } from './api';
+import { getApps, getWidget } from './api';
 import Chart from './chart';
 import Counter from './counter';
-import { APPS } from './env';
 import { Widget as WidgetType } from './types';
 
 export default async function Widget({ widget }: { widget: WidgetType }) {
   if (!widget.visualization) {
     return null;
   }
-
+  const apps = await getApps();
   const data = await Promise.all(
-    APPS.sort().map(async (app) => ({
-      app,
-      queryResult: await getWidget(widget, app)
+    apps.sort().map(async (app) => ({
+      app: app.name,
+      queryResult: await getWidget(widget, app.id)
     }))
   ).catch((error) => {
-    console.error(error);
+    console.error(error.message);
   });
+
   const title = widget.visualization.query.name;
   const description =
     widget.visualization.query.description || widget.visualization.name;

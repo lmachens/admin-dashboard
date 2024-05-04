@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { TOKEN } from './env';
 import {
+  Application,
   DevConsolePartnersDaily,
   EmptyResult,
   JobResult,
@@ -13,15 +14,15 @@ import 'server-only';
 
 // https://nextjs.org/docs/app/building-your-application/data-fetching/caching#react-cache
 const jsonFetch = cache(async <T>(props: string) => {
-  const { url, appName, daysBack } = JSON.parse(props) as {
+  const { url, id, appId, daysBack } = JSON.parse(props) as {
     url: string;
-    appName?: string;
+    id?: number;
+    appId?: string;
     daysBack?: string;
   };
   for (let i = 0; i < 60; i++) {
-    const body: { parameters: Record<string, string> } | undefined = appName
-      ? { parameters: { app_name: appName } }
-      : undefined;
+    const body: { id: number; parameters: Record<string, string> } | undefined =
+      appId && id ? { id: id, parameters: { app_id: appId } } : undefined;
     if (daysBack && body) {
       body.parameters['Days back'] = daysBack;
     }
@@ -33,12 +34,20 @@ const jsonFetch = cache(async <T>(props: string) => {
       },
       body: body ? JSON.stringify(body) : undefined
     });
-    const data = (await response.json()) as T;
-
-    if (!response.ok) {
-      throw new Error(JSON.stringify(data));
+    let data;
+    if (
+      response.headers.get('content-type')?.includes('application/json') ===
+      false
+    ) {
+      data = { body: await response.text() } as T;
+    } else {
+      data = (await response.json()) as T;
     }
-    if ('job' in (data as any) || Object.keys(data as any).length === 0) {
+    if (
+      !response.ok ||
+      'job' in (data as any) ||
+      Object.keys(data as any).length === 0
+    ) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } else {
       return data;
@@ -46,10 +55,18 @@ const jsonFetch = cache(async <T>(props: string) => {
   }
   throw new Error(JSON.stringify({ url, error: 'Timed out' }));
 });
+
+export async function getApps() {
+  return await jsonFetch<Application[]>(
+    JSON.stringify({
+      url: 'https://console-be.overwolf.com/applications?filter=%7B%7D&range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D'
+    })
+  );
+}
 export async function getDashboardRevenue() {
   return await jsonFetch<RevenueStatisticsDashboard>(
     JSON.stringify({
-      url: 'https://console-stats.overwolf.com/api/dashboards/public/revenue'
+      url: 'https://console-be.overwolf.com/redash/api/dashboards/public/revenue'
     })
   ).then((data) => data.widgets);
 }
@@ -57,7 +74,7 @@ export async function getDashboardRevenue() {
 export async function getDashboardKPIs() {
   return await jsonFetch<DevConsolePartnersDaily>(
     JSON.stringify({
-      url: 'https://console-stats.overwolf.com/api/dashboards/public/kpis'
+      url: 'https://console-be.overwolf.com/redash/api/dashboards/public/kpis'
     })
   ).then((data) => data.widgets);
 }
@@ -65,18 +82,18 @@ export async function getDashboardKPIs() {
 export async function getDashboardPerformance() {
   return await jsonFetch<DevConsolePartnersDaily>(
     JSON.stringify({
-      url: 'https://console-stats.overwolf.com/api/dashboards/public/performance'
+      url: 'https://console-be.overwolf.com/redash/api/dashboards/public/performance'
     })
   ).then((data) => data.widgets);
 }
 
-async function getWidgetData(widget: Widget, appName: string) {
+async function getWidgetData(widget: Widget, appId: string) {
   const body: {
     parameters: {
-      app_name: string;
+      app_id: string;
       'Days back'?: string;
     };
-  } = { parameters: { app_name: appName } };
+  } = { parameters: { app_id: appId } };
   if (!widget.visualization) {
     throw new Error(`Widget ${widget.id} has no visualization`);
   }
@@ -86,9 +103,10 @@ async function getWidgetData(widget: Widget, appName: string) {
   ).find((parameter) => parameter.name === 'Days back');
   const widgetData = await jsonFetch<JobResult | EmptyResult | QueryResult>(
     JSON.stringify({
-      url: `https://console-stats.overwolf.com/api/queries/${widget.visualization.query.id}/results`,
-      appName,
-      daysBack: daysBack?.value
+      url: `https://console-be.overwolf.com/redash/api/queries/${widget.visualization.query.id}/results`,
+      appId,
+      daysBack: daysBack?.value,
+      id: widget.visualization.query.id
     })
   );
 
@@ -139,13 +157,13 @@ async function getWidgetData(widget: Widget, appName: string) {
   throw new Error(
     JSON.stringify({
       id: widget.visualization.query.id,
-      appName,
+      appId,
       widgetData,
       body
     })
   );
 }
 
-export const getWidget = (widget: Widget, appName: string) => {
-  return getWidgetData(widget, appName);
+export const getWidget = (widget: Widget, appId: string) => {
+  return getWidgetData(widget, appId);
 };
